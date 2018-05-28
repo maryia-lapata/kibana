@@ -29,7 +29,7 @@ async function callApi(fetchOptions, kibanaOptions) {
 
 export const getAPMIndexPattern = memoize(async () => {
   const res = await callApi({
-    pathname: chrome.addBasePath(`/api/saved_objects/_find`),
+    pathname: `/api/saved_objects/_find`,
     query: {
       type: 'index-pattern'
     }
