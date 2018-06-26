@@ -83,7 +83,7 @@ uiRoutes
             values: { mode: this.mode } }));
       }
 
-      docTitle.change([this.field.name || i18n('kbn.management.indexPattern.edit.scripted.newField.header',
+      docTitle.change([this.field.name || i18n('kbn.management.indexPattern.edit.scripted.newField.placeholder',
         { defaultMessage: 'New Scripted Field' }),
       this.indexPattern.title]);
       this.goBack = function () {
