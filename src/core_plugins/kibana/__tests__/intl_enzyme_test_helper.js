@@ -23,7 +23,8 @@
  */
 
 import React from 'react';
-import { IntlProvider, intlShape } from 'react-intl';
+import { ReactI18n } from '@kbn/i18n';
+const { IntlProvider, intlShape } = ReactI18n;
 import { mount } from 'enzyme';
 
 // Create the IntlProvider to retrieve context for wrapping around.
