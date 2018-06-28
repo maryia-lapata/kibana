@@ -38,14 +38,16 @@ It is used the following id naming structure:
 “kbn.management.indexPattern.edit.scripted.deprecationLang.label.link”: “Painless”
 ```
 
-#### Placeholders
+#### Attribute with variables interpolation
 
 Messages can contain placeholders for embedding a value of a variable. For example:
 ```js
 "kbn.management.indexPattern.edit.scripted.deleteField.label": "Delete scripted field '{fieldName}'?"
 "kbn.management.indexPattern.edit.scripted.noField.label": "'{indexPatternTitle}' index pattern doesn't have a scripted field called '{fieldName}'"
 ```
-Mostly such placeholders has meaningful name according to the ontent.
+Mostly such placeholders have meaningful name according to the ontent.
+
+#### Pluralization
 
 ## Best practices
 
@@ -216,6 +218,16 @@ To follow `eslint` rules for long default messages use backslashes in interpolat
   ```
   Please make sure that there are no spaces and tabs on the next line after backslash.
 
-#### Plural
+#### Text with plurals
+
+The numeric input is mapped to a plural category, some subset of "zero", "one", "two", "few", "many", and "other" depending on the locale and the type of plural. There are languages with multiple plural forms (Language Plural Rules http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html).
+
+```js
+<FormattedMessage
+    id="kbn.management.indexPattern.create.step.status.matchAny.label.strongIndices"
+    defaultMessage="{allIndicesLength, plural, one {# index} other {# indices}}"
+    values={{ allIndicesLength: allIndices.length }}
+/>
+```
 
 #### Unit tests

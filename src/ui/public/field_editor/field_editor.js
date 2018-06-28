@@ -56,8 +56,11 @@ uiModules
         getField: '&field'
       },
       controllerAs: 'editor',
-      controller: function ($scope, kbnUrl) {
+      controller: function ($scope, kbnUrl, i18n) {
         const self = this;
+
+        // this function is also used in the template
+        self.translate = (id, defaultMessage, values) => i18n(id, { defaultMessage, values });
 
         getScriptingLangs().then((langs) => {
           self.scriptingLangs = langs;
@@ -98,7 +101,8 @@ uiModules
 
           return indexPattern.save()
             .then(function () {
-              toastNotifications.addSuccess(`Saved '${self.field.name}'`);
+              toastNotifications.addSuccess(self.translate('common.ui.fieldEditor.notification.saved.label', 'Saved \'{fieldName}\'',
+                { fieldName: self.field.name }));
               redirectAway();
             });
         };
@@ -111,17 +115,19 @@ uiModules
             indexPattern.fields.remove({ name: field.name });
             return indexPattern.save()
               .then(function () {
-                toastNotifications.addSuccess(`Deleted '${self.field.name}'`);
+                toastNotifications.addSuccess(self.translate('common.ui.fieldEditor.notification.deleted.label', 'Deleted \'{fieldName}\'',
+                  { fieldName: self.field.name }));
                 redirectAway();
               });
           }
           const confirmModalOptions = {
-            confirmButtonText: 'Delete',
+            confirmButtonText: self.translate('common.ui.fieldEditor.confirm.delete.button', 'Delete'),
             onConfirm: doDelete,
-            title: `Delete field '${self.field.name}'?`
+            title: self.translate('common.ui.fieldEditor.confirm.delete.header', 'Delete field \'{fieldName}\'?',
+              { fieldName: self.field.name })
           };
           confirmModal(
-            `You can't recover a deleted field.`,
+            self.translate('common.ui.fieldEditor.confirm.delete.label', 'You can\'t recover a deleted field.'),
             confirmModalOptions
           );
         };
@@ -224,7 +230,7 @@ uiModules
           // explicitly set to undefined to prevent inheritting the prototypes id
           def.id = undefined;
           def.resolvedTitle = def.title;
-          def.title = '- default - ';
+          def.title = self.translate('common.ui.fieldEditor.format.default.dropDown', '- default - ');
 
           return def;
         }
