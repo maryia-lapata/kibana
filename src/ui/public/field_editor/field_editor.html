@@ -1,3 +1,63 @@
+common.ui.fieldEditor.scriptingDisabled.header
+common.ui.fieldEditor.scriptingDisabled.label
+common.ui.fieldEditor.name.label
+common.ui.fieldEditor.mappingConflict.header
+common.ui.fieldEditor.mappingConflict.label
+common.ui.fieldEditor.lang.label
+common.ui.fieldEditor.lang.warning.header
+common.ui.fieldEditor.lang.warning.label.detail
+common.ui.fieldEditor.selectLang.dropDown
+common.ui.fieldEditor.type.label
+common.ui.fieldEditor.format.warning.label
+common.ui.fieldEditor.format.label
+common.ui.fieldEditor.format.default.label
+common.ui.fieldEditor.format.warning.header
+common.ui.fieldEditor.format.warning.detail.label
+common.ui.fieldEditor.popularity.label
+common.ui.fieldEditor.script.label
+common.ui.fieldEditor.proceed.header
+common.ui.fieldEditor.proceed.label.detail
+common.ui.fieldEditor.proceed.detail.label
+common.ui.fieldEditor.help.header
+common.ui.fieldEditor.help.scriptedFields.label.detail
+common.ui.fieldEditor.help.format.label
+common.ui.fieldEditor.help.painless.label.detail
+common.ui.fieldEditor.help.limit.label
+common.ui.fieldEditor.help.lucene.common.label.detail
+common.ui.fieldEditor.help.lucene.limits.label
+common.ui.fieldEditor.help.lucene.limits.types.label
+common.ui.fieldEditor.help.lucene.limits.fields.label
+common.ui.fieldEditor.help.lucene.limits.sparse.label
+common.ui.fieldEditor.help.lucene.operations.label
+common.ui.fieldEditor.help.lucene.operations.arithmetic.label
+common.ui.fieldEditor.help.lucene.operations.bitwise.label
+common.ui.fieldEditor.help.lucene.operations.boolean.label
+common.ui.fieldEditor.help.lucene.operations.comparison.label
+common.ui.fieldEditor.help.lucene.operations.common.label
+common.ui.fieldEditor.help.lucene.operations.trigonometric.label
+common.ui.fieldEditor.help.lucene.operations.distance.label
+common.ui.fieldEditor.help.lucene.operations.miscellaneous.label
+common.ui.fieldEditor.fieldTypeConflict.header
+common.ui.fieldEditor.fieldTypeConflict.label
+common.ui.fieldEditor.fieldTypeConflict.type.header
+common.ui.fieldEditor.fieldTypeConflict.name.header
+common.ui.fieldEditor.delete.button
+common.ui.fieldEditor.create.button
+common.ui.fieldEditor.update.button
+common.ui.fieldEditor.cancel.button
+common.ui.fieldEditor.scriptedField.placeholder
+common.ui.fieldEditor.lang.warning.aria
+common.ui.fieldEditor.popularity.aria
+common.ui.fieldEditor.popularity.button.aria
+common.ui.fieldEditor.delete.aria
+common.ui.fieldEditor.create.aria
+common.ui.fieldEditor.update.aria
+common.ui.fieldEditor.notification.saved.label
+common.ui.fieldEditor.notification.deleted.label
+common.ui.fieldEditor.confirm.delete.button
+common.ui.fieldEditor.confirm.delete.header
+common.ui.fieldEditor.confirm.delete.label
+common.ui.fieldEditor.format.default.dropDown
 <form ng-submit="editor.save()" name="form">
   <div ng-if="editor.scriptingLangs.length === 0" class="hintbox">
     <p>
@@ -57,7 +117,7 @@
           <span i18n-id="common.ui.fieldEditor.lang.warning.label.detail"
                 i18n-default-message="{lang} is deprecated and support will be removed in the next major version of Kibana and Elasticsearch. We recommend using {recommendedLang} for new scripted fields."
                 i18n-values="{ lang: '<span class=\'text-capitalize\'>' + editor.field.lang + '</span>',
-                recommendedLang: '<a class=\'kuiLink\' ng-href=\'{{editor.docLinks.painless}}\'>' + editor.translate('common.ui.fieldEditor.lang.warning.label.painless', 'Painless') + '</a>' }"
+                recommendedLang: '<a class=\'kuiLink\' ng-href=\'{{editor.docLinks.painless}}\' i18n-id=\'common.ui.fieldEditor.lang.warning.label.painless\' i18n-default-message=\'Painless\'></a>' }"
           ></span>
         </div>
       </div>
@@ -211,8 +271,8 @@
       <div class="euiText euiText--small">
         <p i18n-id="common.ui.fieldEditor.proceed.label.detail"
            i18n-default-message="Please familiarize yourself with {scriptFields} and with {scriptInAggregation} before using scripted fields."
-           i18n-values="{ scriptFields: '<a target=\'_window\' documentation-href=\'scriptedFields.scriptFields\'>' + editor.translate('common.ui.fieldEditor.proceed.label.scriptFields', 'script fields') +' <i class=\'fa-link fa\'></i></a>',
-           scriptInAggregation: '<a target=\'_window\' documentation-href=\'scriptedFields.scriptAggs\'>' + editor.translate('common.ui.fieldEditor.proceed.label.scriptInAggregation', 'scripts in aggregations') + ' <i class=\'fa-link fa\'></i></a>' }">
+           i18n-values="{ scriptFields: '<a target=\'_window\' documentation-href=\'scriptedFields.scriptFields\'><span i18n-id=\'common.ui.fieldEditor.proceed.label.scriptFields\' i18n-default-message=\'script fields\'></span> <i class=\'fa-link fa\'></i></a>',
+           scriptInAggregation: '<a target=\'_window\' documentation-href=\'scriptedFields.scriptAggs\'><span i18n-id=\'common.ui.fieldEditor.proceed.label.scriptInAggregation\' i18n-default-message=\'scripts in aggregations\'></span> <i class=\'fa-link fa\'></i></a>' }">
         </p>
 
         <p i18n-id="common.ui.fieldEditor.proceed.detail.label"
@@ -232,7 +292,7 @@
       <div class="euiText euiText--small">
         <p i18n-id="common.ui.fieldEditor.help.scriptedFields.label.detail"
            i18n-default-message="By default, Kibana scripted fields use {painless}, a simple and secure scripting language designed specifically for use with Elasticsearch. To access values in the document use the following format:"
-           i18n-values="{ painless: '<a target=\'_window\' documentation-href=\'scriptedFields.painless\'>' + editor.translate('common.ui.fieldEditor.help.scriptedFields.label.painless', 'Painless') +' <i class=\'fa-link fa\'></i></a>' }">
+           i18n-values="{ painless: '<a target=\'_window\' documentation-href=\'scriptedFields.painless\'><span i18n-id=\'common.ui.fieldEditor.help.scriptedFields.label.painless\' i18n-default-message=\'Painless\'></span> <i class=\'fa-link fa\'></i></a>' }">
         </p>
 
         <p><code i18n-id="common.ui.fieldEditor.help.format.label"
@@ -240,8 +300,8 @@
 
         <p i18n-id="common.ui.fieldEditor.help.painless.label.detail"
            i18n-default-message="Painless is powerful but easy to use. It provides access to many {apis}. Read up on its {syntax} and you'll be up to speed in no time!"
-           i18n-values="{ apis: '<a target=\'_window\' documentation-href=\'scriptedFields.painlessApi\'>' + editor.translate('common.ui.fieldEditor.help.painless.label.apis', 'native Java APIs') + ' <i class=\'fa-link fa\'></i></a>',
-           syntax: '<a target=\'_window\' documentation-href=\'scriptedFields.painlessSyntax\'>' + editor.translate('common.ui.fieldEditor.help.painless.label.syntax', 'syntax') + ' <i class=\'fa-link fa\'></i></a>' }">
+           i18n-values="{ apis: '<a target=\'_window\' documentation-href=\'scriptedFields.painlessApi\'><span i18n-id=\'common.ui.fieldEditor.help.painless.label.apis\' i18n-default-message=\'native Java APIs\'></span> <i class=\'fa-link fa\'></i></a>',
+           syntax: '<a target=\'_window\' documentation-href=\'scriptedFields.painlessSyntax\'><span i18n-id=\'common.ui.fieldEditor.help.painless.label.syntax\' i18n-default-message=\'syntax\'></span> <i class=\'fa-link fa\'></i></a>' }">
         </p>
 
         <p i18n-id="common.ui.fieldEditor.help.limit.label"
@@ -250,7 +310,7 @@
 
         <p i18n-id="common.ui.fieldEditor.help.lucene.common.label.detail"
            i18n-default-message="Coming from an older version of Kibana? The {lucene} you know and love are still available. Lucene expressions are a lot like JavaScript, but limited to basic arithmetic, bitwise and comparison operations."
-           i18n-values="{ lucene: '<a target=\'_window\' documentation-href=\'scriptedFields.luceneExpressions\'>' + editor.translate('common.ui.fieldEditor.help.painless.label.lucene', 'Lucene Expressions') + ' <i class=\'fa-link fa\'></i></a>' }">
+           i18n-values="{ lucene: '<a target=\'_window\' documentation-href=\'scriptedFields.luceneExpressions\'><span i18n-id=\'common.ui.fieldEditor.help.painless.label.lucene\' i18n-default-message=\'Lucene Expressions\'></span> <i class=\'fa-link fa\'></i></a>' }">
         </p>
 
         <p i18n-id="common.ui.fieldEditor.help.lucene.limits.label"
@@ -321,7 +381,7 @@
       type="button"
       ng-if="editor.field.scripted && !editor.creating"
       ng-click="editor.delete()"
-      aria-label="{{'common.ui.fieldEditor.delete.aria' | i18n: { defaultMessage: 'Delete' } }}"
+      aria-label="{{'common.ui.fieldEditor.delete.aria' | i18n: {defaultMessage: 'Delete'} }}"
       class="kuiButton kuiButton--danger"
       i18n-id="common.ui.fieldEditor.delete.button"
       i18n-default-message="Delete Field"
@@ -333,7 +393,7 @@
       data-test-subj="fieldSaveButton"
       ng-disabled="form.$invalid"
       type="submit"
-      aria-label="{{ 'common.ui.fieldEditor.create.aria' | i18n: { defaultMessage: 'Create Field' } }}"
+      aria-label="{{ 'common.ui.fieldEditor.create.aria' | i18n: {defaultMessage: 'Create Field'} }}"
       class="kuiButton kuiButton--primary"
       i18n-id="common.ui.fieldEditor.create.button"
       i18n-default-message="Create Field"

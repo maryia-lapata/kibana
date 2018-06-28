@@ -59,9 +59,6 @@ uiModules
       controller: function ($scope, kbnUrl, i18n) {
         const self = this;
 
-        // this function is also used in the template
-        self.translate = (id, defaultMessage, values) => i18n(id, { defaultMessage, values });
-
         getScriptingLangs().then((langs) => {
           self.scriptingLangs = langs;
           if (!_.includes(self.scriptingLangs, self.field.lang)) {
@@ -101,8 +98,8 @@ uiModules
 
           return indexPattern.save()
             .then(function () {
-              toastNotifications.addSuccess(self.translate('common.ui.fieldEditor.notification.saved.label', 'Saved \'{fieldName}\'',
-                { fieldName: self.field.name }));
+              toastNotifications.addSuccess(i18n('common.ui.fieldEditor.notification.saved.label',
+                { defaultMessage: 'Saved \'{fieldName}\'', values: { fieldName: self.field.name } }));
               redirectAway();
             });
         };
@@ -115,19 +112,19 @@ uiModules
             indexPattern.fields.remove({ name: field.name });
             return indexPattern.save()
               .then(function () {
-                toastNotifications.addSuccess(self.translate('common.ui.fieldEditor.notification.deleted.label', 'Deleted \'{fieldName}\'',
-                  { fieldName: self.field.name }));
+                toastNotifications.addSuccess(i18n('common.ui.fieldEditor.notification.deleted.label',
+                  { defaultMessage: 'Deleted \'{fieldName}\'', values: { fieldName: self.field.name } }));
                 redirectAway();
               });
           }
           const confirmModalOptions = {
-            confirmButtonText: self.translate('common.ui.fieldEditor.confirm.delete.button', 'Delete'),
+            confirmButtonText: i18n('common.ui.fieldEditor.confirm.delete.button', { defaultMessage: 'Delete' }),
             onConfirm: doDelete,
-            title: self.translate('common.ui.fieldEditor.confirm.delete.header', 'Delete field \'{fieldName}\'?',
-              { fieldName: self.field.name })
+            title: i18n('common.ui.fieldEditor.confirm.delete.header', { defaultMessage: 'Delete field \'{fieldName}\'?',
+              values: { fieldName: self.field.name } })
           };
           confirmModal(
-            self.translate('common.ui.fieldEditor.confirm.delete.label', 'You can\'t recover a deleted field.'),
+            i18n('common.ui.fieldEditor.confirm.delete.label', { defaultMessage: 'You can\'t recover a deleted field.' }),
             confirmModalOptions
           );
         };
@@ -230,7 +227,7 @@ uiModules
           // explicitly set to undefined to prevent inheritting the prototypes id
           def.id = undefined;
           def.resolvedTitle = def.title;
-          def.title = self.translate('common.ui.fieldEditor.format.default.dropDown', '- default - ');
+          def.title = i18n('common.ui.fieldEditor.format.default.dropDown', { defaultMessage: '- default - ' });
 
           return def;
         }
