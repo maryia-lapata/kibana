@@ -56,7 +56,7 @@ export function IndexPatternsIntervalsProvider() {
     ]
   });
 
-  intervals.toIndexList = function (format, interval, a, b, sortDirection) {
+  intervals.toIndexList = function (format, interval, a, b, sortDirection, i18n) {
     let bounds;
 
     // setup the range that the list will span, return two moment objects that
@@ -83,7 +83,13 @@ export function IndexPatternsIntervalsProvider() {
 
     if (typeof interval === 'string') {
       interval = _.find(intervals, { name: interval });
-      if (!interval) throw new Error('Interval must be one of ' + _.pluck(intervals, 'name'));
+      if (!interval) {
+        throw new Error(i18n('common.ui.indexPattern.create.intervals.errorMessage',
+          {
+            values: { intervals: _.pluck(intervals, 'name') },
+            defaultMessage: 'Interval must be one of {intervals}'
+          }));
+      }
     }
 
     const indexList = [];
