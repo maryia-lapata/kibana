@@ -18,9 +18,11 @@
  */
 
 import React from 'react';
-import { shallow } from 'enzyme';
 import { StepIndexPattern } from '../step_index_pattern';
-import { mountWithIntl } from 'test_utils/enzyme_helpers';
+import { shallowIntl } from 'test_utils/enzyme_helpers';
+import { ReactI18n } from '@kbn/i18n';
+
+const { I18nContext } = ReactI18n;
 
 jest.mock('../../../lib/ensure_minimum_time', () => ({
   ensureMinimumTime: async (promises) => Array.isArray(promises) ? await Promise.all(promises) : await promises
@@ -47,7 +49,7 @@ const savedObjectsClient = {
 const goToNextStep = () => {};
 
 const createComponent = props => {
-  return shallow(
+  return shallowIntl(
     <StepIndexPattern
       allIndices={allIndices}
       isIncludingSystemIndices={false}
@@ -110,8 +112,8 @@ describe('StepIndexPattern', () => {
     expect(component.state('query')).toBe('k*');
   });
 
-  it('disables the next step if the index pattern exists', async () => {
-    const component = mountWithIntl(<StepIndexPattern
+  it('disables the next step if the index pattern exists', () => {
+    const component = shallowIntl(<StepIndexPattern
       allIndices={allIndices}
       isIncludingSystemIndices={false}
       esService={esService}
@@ -119,12 +121,13 @@ describe('StepIndexPattern', () => {
       goToNextStep={goToNextStep}
     />);
 
+    const wrapper = component.find(I18nContext).shallow();
     component.setState({ indexPatternExists: true });
-    expect(component.find('Header').prop('isNextStepDisabled')).toBe(true);
+    expect(wrapper.find('Header').prop('isNextStepDisabled')).toBe(true);
   });
 
   it('ensures the response of the latest request is persisted', async () => {
-    const component = mountWithIntl(<StepIndexPattern
+    const component = shallowIntl(<StepIndexPattern
       allIndices={allIndices}
       isIncludingSystemIndices={false}
       esService={esService}

@@ -16,27 +16,28 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+/* global jest */
 
 import PropTypes from 'prop-types';
-
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 const intl = {
   formatMessage: jest.fn().mockImplementation(({ defaultMessage }) => defaultMessage),
-  formatDate: jest.fn().mockImplementation(({ defaultMessage }) => defaultMessage),
-  formatTime: jest.fn().mockImplementation(({ defaultMessage }) => defaultMessage),
-  formatRelative: jest.fn().mockImplementation(({ defaultMessage }) => defaultMessage),
-  formatNumber: jest.fn().mockImplementation(({ defaultMessage }) => defaultMessage),
-  formatPlural: jest.fn().mockImplementation(({ defaultMessage }) => defaultMessage),
-  formatHTMLMessage: jest.fn().mockImplementation(({ defaultMessage }) => defaultMessage),
-  now: jest.fn().mockImplementation(({ defaultMessage }) => defaultMessage),
 };
 
-export function mountWithIntl(node, { context, childContextTypes, ...additionalOptions } = {}) {
-  return mount(
+export function shallowIntl(node, { context, childContextTypes, ...props } = {}) {
+  return shallow(
     node,
-    { context: { ...context, intl },
-      childContextTypes: { intl: PropTypes.any, ...childContextTypes },
-      ...additionalOptions,
-    });
+    {
+      context: {
+        ...context,
+        intl,
+      },
+      childContextTypes: {
+        ...childContextTypes,
+        intl: PropTypes.any,
+      },
+      ...props,
+    },
+  );
 }
