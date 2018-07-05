@@ -22,6 +22,8 @@ import { shallow } from 'enzyme';
 
 import { Table } from '../table';
 
+import { mountWithIntl } from 'test_utils/enzyme_helpers';
+
 const indexPattern = {
   timeFieldName: 'timestamp'
 };
@@ -46,7 +48,7 @@ describe('Table', () => {
   });
 
   it('should render normal field name', async () => {
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -54,12 +56,12 @@ describe('Table', () => {
       />
     );
 
-    const tableCell = shallow(component.prop('columns')[0].render('Elastic'));
+    const tableCell = shallow(component.find('EuiInMemoryTable').prop('columns')[0].render('Elastic'));
     expect(tableCell).toMatchSnapshot();
   });
 
   it('should render timestamp field name', async () => {
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -67,12 +69,12 @@ describe('Table', () => {
       />
     );
 
-    const tableCell = shallow(component.prop('columns')[0].render('timestamp', true));
+    const tableCell = shallow(component.find('EuiInMemoryTable').prop('columns')[0].render('timestamp', true));
     expect(tableCell).toMatchSnapshot();
   });
 
   it('should render the boolean template (true)', async () => {
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -80,12 +82,12 @@ describe('Table', () => {
       />
     );
 
-    const tableCell = shallow(component.prop('columns')[3].render(true));
+    const tableCell = shallow(component.find('EuiInMemoryTable').prop('columns')[3].render(true));
     expect(tableCell).toMatchSnapshot();
   });
 
   it('should render the boolean template (false)', async () => {
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -93,12 +95,12 @@ describe('Table', () => {
       />
     );
 
-    const tableCell = shallow(component.prop('columns')[3].render(false));
+    const tableCell = shallow(component.find('EuiInMemoryTable').prop('columns')[3].render(false));
     expect(tableCell).toMatchSnapshot();
   });
 
   it('should render normal type', async () => {
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -106,12 +108,12 @@ describe('Table', () => {
       />
     );
 
-    const tableCell = shallow(component.prop('columns')[1].render('string'));
+    const tableCell = shallow(component.find('EuiInMemoryTable').prop('columns')[1].render('string'));
     expect(tableCell).toMatchSnapshot();
   });
 
   it('should render conflicting type', async () => {
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -119,14 +121,14 @@ describe('Table', () => {
       />
     );
 
-    const tableCell = shallow(component.prop('columns')[1].render('conflict', true));
+    const tableCell = shallow(component.find('EuiInMemoryTable').prop('columns')[1].render('conflict', true));
     expect(tableCell).toMatchSnapshot();
   });
 
   it('should allow edits', () => {
     const editField = jest.fn();
 
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -135,7 +137,7 @@ describe('Table', () => {
     );
 
     // Click the edit button
-    component.prop('columns')[6].actions[0].onClick();
+    component.find('EuiInMemoryTable').prop('columns')[6].actions[0].onClick();
     expect(editField).toBeCalled();
   });
 });

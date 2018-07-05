@@ -22,6 +22,8 @@ import { shallow } from 'enzyme';
 
 import { Table } from '../table';
 
+import { mountWithIntl } from 'test_utils/enzyme_helpers';
+
 const indexPattern = {
   fieldFormatMap: {
     Elastic: {
@@ -50,7 +52,7 @@ describe('Table', () => {
   });
 
   it('should render the format', async () => {
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -60,14 +62,14 @@ describe('Table', () => {
       />
     );
 
-    const formatTableCell = shallow(component.prop('columns')[3].render('Elastic'));
+    const formatTableCell = shallow(component.find('EuiInMemoryTable').prop('columns')[3].render('Elastic'));
     expect(formatTableCell).toMatchSnapshot();
   });
 
   it('should allow edits', () => {
     const editField = jest.fn();
 
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -78,14 +80,14 @@ describe('Table', () => {
     );
 
     // Click the delete button
-    component.prop('columns')[4].actions[0].onClick();
+    component.find('EuiInMemoryTable').prop('columns')[4].actions[0].onClick();
     expect(editField).toBeCalled();
   });
 
   it('should allow deletes', () => {
     const deleteField = jest.fn();
 
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={indexPattern}
         items={items}
@@ -96,7 +98,7 @@ describe('Table', () => {
     );
 
     // Click the delete button
-    component.prop('columns')[4].actions[1].onClick();
+    component.find('EuiInMemoryTable').prop('columns')[4].actions[1].onClick();
     expect(deleteField).toBeCalled();
   });
 

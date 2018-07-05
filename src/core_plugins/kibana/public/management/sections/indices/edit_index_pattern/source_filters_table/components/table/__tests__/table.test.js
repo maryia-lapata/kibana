@@ -23,6 +23,8 @@ import { shallow } from 'enzyme';
 import { Table } from '../table';
 import { keyCodes } from '@elastic/eui';
 
+import { mountWithIntl } from 'test_utils/enzyme_helpers';
+
 const indexPattern = {};
 const items = [{ value: 'tim*' }];
 
@@ -43,7 +45,7 @@ describe('Table', () => {
   });
 
   it('should render filter matches', async () => {
-    const component = shallow(
+    const component = mountWithIntl(
       <Table
         indexPattern={{
           getNonScriptedFields: () => [{ name: 'time' }, { name: 'value' }],
@@ -57,7 +59,7 @@ describe('Table', () => {
     );
 
     const matchesTableCell = shallow(
-      component.prop('columns')[1].render('tim', { clientId: 1 })
+      component.find('EuiInMemoryTable').prop('columns')[1].render('tim', { clientId: 1 })
     );
     expect(matchesTableCell).toMatchSnapshot();
   });

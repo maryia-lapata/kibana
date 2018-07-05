@@ -22,6 +22,8 @@ import { shallow } from 'enzyme';
 
 import { AddFilter } from '../add_filter';
 
+import { mountWithIntl } from 'test_utils/enzyme_helpers';
+
 describe('AddFilter', () => {
   it('should render normally', async () => {
     const component = shallow(
@@ -33,7 +35,7 @@ describe('AddFilter', () => {
 
   it('should allow adding a filter', async () => {
     const onAddFilter = jest.fn();
-    const component = shallow(
+    const component = mountWithIntl(
       <AddFilter onAddFilter={onAddFilter}/>
     );
 
