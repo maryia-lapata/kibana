@@ -70,6 +70,7 @@ export class CoreSystem {
       },
     });
 
+    require('ui/i18n_init').__newPlatformInit__(this.injectedMetadata.start().getLegacyMetadata());
     this.notificationsTargetDomElement = document.createElement('div');
     this.notifications = new NotificationsService({
       targetDomElement: this.notificationsTargetDomElement,

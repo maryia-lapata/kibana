@@ -126,7 +126,9 @@ export default function (kibana) {
         };
       },
 
-      translations: [],
+      translations: [
+        require('path').resolve(__dirname, './../../ru.json')
+      ],
 
       mappings,
       uiSettingDefaults: getUiSettingDefaults(),
