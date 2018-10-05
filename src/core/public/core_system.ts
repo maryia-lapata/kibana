@@ -21,6 +21,7 @@ import './core.css';
 
 import { BasePathService } from './base_path';
 import { FatalErrorsService } from './fatal_errors';
+import { I18nService } from './i18n';
 import { InjectedMetadataParams, InjectedMetadataService } from './injected_metadata';
 import { LegacyPlatformParams, LegacyPlatformService } from './legacy_platform';
 import { LoadingCountService } from './loading_count';
@@ -43,6 +44,7 @@ interface Params {
 export class CoreSystem {
   private readonly fatalErrors: FatalErrorsService;
   private readonly injectedMetadata: InjectedMetadataService;
+  private readonly i18nService: I18nService;
   private readonly legacyPlatform: LegacyPlatformService;
   private readonly notifications: NotificationsService;
   private readonly loadingCount: LoadingCountService;
@@ -62,6 +64,11 @@ export class CoreSystem {
       injectedMetadata,
     });
 
+    this.i18nService = new I18nService({
+      injectedMetadata: this.injectedMetadata,
+    });
+    this.i18nService.init();
+
     this.fatalErrors = new FatalErrorsService({
       rootDomElement,
       injectedMetadata: this.injectedMetadata,
@@ -70,7 +77,6 @@ export class CoreSystem {
       },
     });
 
-    require('ui/i18n_init').__newPlatformInit__(this.injectedMetadata.start().getLegacyMetadata());
     this.notificationsTargetDomElement = document.createElement('div');
     this.notifications = new NotificationsService({
       targetDomElement: this.notificationsTargetDomElement,

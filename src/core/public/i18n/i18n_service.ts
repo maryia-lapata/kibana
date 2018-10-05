@@ -17,8 +17,21 @@
  * under the License.
  */
 
-import { i18n } from '@kbn/i18n';
+import { i18n, PlainMessages } from '@kbn/i18n';
+import { InjectedMetadataService } from '../injected_metadata';
 
-export function __newPlatformInit__(metadata) {
-  i18n.init(metadata.translations);
+export interface I18nServiceParams {
+  injectedMetadata: InjectedMetadataService;
+}
+
+export class I18nService {
+  private readonly metadata: any;
+
+  constructor(private params: I18nServiceParams) {
+    this.metadata = params.injectedMetadata.start().getLegacyMetadata().translations;
+  }
+
+  public init() {
+    i18n.init(this.metadata);
+  }
 }

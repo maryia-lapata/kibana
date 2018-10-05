@@ -17,9 +17,4 @@
  * under the License.
  */
 
-import * as i18nCore from './core';
-import * as loader from './loader';
-
-export const i18n = i18nCore;
-export const i18nLoader = loader;
-export { PlainMessages } from './messages';
+export { I18nService } from './i18n_service';
