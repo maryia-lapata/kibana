@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { i18n, PlainMessages } from '@kbn/i18n';
+import { i18n } from '@kbn/i18n';
 import { InjectedMetadataStartContract } from '../injected_metadata';
 
 interface Deps {
