@@ -100,6 +100,7 @@ export class CoreSystem {
       this.rootDomElement.appendChild(this.legacyPlatformTargetDomElement);
 
       const injectedMetadata = this.injectedMetadata.start();
+      // Initialization of i18n engine should be before Notifications start
       this.i18nService.init({ injectedMetadata });
       const notifications = this.notifications.start();
       const fatalErrors = this.fatalErrors.start();
