@@ -80,7 +80,7 @@ class ReportListingUi extends Component<Props, State> {
 
   public render() {
     return (
-      <EuiPage className="repReportListing__page">
+      <EuiPage>
         <EuiPageBody restrictWidth>
           <EuiPageContent horizontalPosition="center">
             <EuiTitle>
