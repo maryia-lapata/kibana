@@ -64,10 +64,7 @@ export class CoreSystem {
       injectedMetadata,
     });
 
-    this.i18nService = new I18nService({
-      injectedMetadata: this.injectedMetadata,
-    });
-    this.i18nService.init();
+    this.i18nService = new I18nService();
 
     this.fatalErrors = new FatalErrorsService({
       rootDomElement,
@@ -102,8 +99,9 @@ export class CoreSystem {
       this.rootDomElement.appendChild(this.notificationsTargetDomElement);
       this.rootDomElement.appendChild(this.legacyPlatformTargetDomElement);
 
-      const notifications = this.notifications.start();
       const injectedMetadata = this.injectedMetadata.start();
+      this.i18nService.init({ injectedMetadata });
+      const notifications = this.notifications.start();
       const fatalErrors = this.fatalErrors.start();
       const loadingCount = this.loadingCount.start({ fatalErrors });
       const basePath = this.basePath.start({ injectedMetadata });

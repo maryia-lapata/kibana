@@ -18,20 +18,14 @@
  */
 
 import { i18n, PlainMessages } from '@kbn/i18n';
-import { InjectedMetadataService } from '../injected_metadata';
+import { InjectedMetadataStartContract } from '../injected_metadata';
 
-export interface I18nServiceParams {
-  injectedMetadata: InjectedMetadataService;
+interface Deps {
+  injectedMetadata: InjectedMetadataStartContract;
 }
 
 export class I18nService {
-  private readonly metadata: any;
-
-  constructor(private params: I18nServiceParams) {
-    this.metadata = params.injectedMetadata.start().getLegacyMetadata().translations;
-  }
-
-  public init() {
-    i18n.init(this.metadata);
+  public init({ injectedMetadata }: Deps) {
+    i18n.init(injectedMetadata.getLegacyMetadata().translations);
   }
 }
