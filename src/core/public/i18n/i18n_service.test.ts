@@ -43,7 +43,7 @@ describe('#init()', () => {
     const i18nService = new I18nService();
 
     expect(mockI18n).not.toHaveBeenCalled();
-    i18nService.init({ injectedMetadata });
+    i18nService.start({ injectedMetadata });
     expect(mockI18n.mock.calls).toMatchSnapshot();
   });
 });
