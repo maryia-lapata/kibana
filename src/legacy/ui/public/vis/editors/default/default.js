@@ -71,6 +71,24 @@ const defaultEditor = function ($rootScope, $compile, i18n) {
           $scope.state = $scope.vis.copyCurrentState(true);
           $scope.oldState = $scope.vis.getSerializableState($scope.state);
 
+          $scope.onRemoveAgg = (agg) => {
+            const aggs = $scope.state.aggs;
+            const index = aggs.indexOf(agg);
+
+            if (index === -1) {
+              return;
+            }
+            aggs.splice(index, 1);
+          };
+
+          $scope.onToggleEnableAgg = (agg, isEnable) => {
+            agg.enabled = isEnable;
+          };
+
+          $scope.onChangeAggType = (agg, aggType) => {
+            agg.type = aggType;
+          };
+
           $scope.toggleSidebar = () => {
             $scope.$broadcast('render');
           };

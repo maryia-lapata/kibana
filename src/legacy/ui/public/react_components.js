@@ -31,6 +31,7 @@ import {
   EuiCallOut,
   EuiSuperDatePicker,
 } from '@elastic/eui';
+import { NewVisEditorSidebar } from './vis/editors/default/new_vis_editor_sidebar';
 
 import { uiModules } from './modules';
 
@@ -63,3 +64,5 @@ app.directive('superDatePicker', reactDirective => reactDirective(EuiSuperDatePi
   'dateFormat',
   'recentlyUsedRanges',
 ]));
+
+//app.directive('newVisEditorSidebar', reactDirective => reactDirective(NewVisEditorSidebar));

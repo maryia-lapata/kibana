@@ -62,7 +62,7 @@ uiModules
             $scope.indexPattern,
             $scope.agg
           );
-
+// --
           Object.keys($scope.editorConfig).forEach(param => {
             const config = $scope.editorConfig[param];
             const paramOptions = $scope.agg.type.params.find((paramOption) => paramOption.name === param);
@@ -83,12 +83,12 @@ uiModules
 
         // this will contain the controls for the schema (rows or columns?), which are unrelated to
         // controls for the agg, which is why they are first
-        addSchemaEditor();
+        addSchemaEditor();//+
 
         // allow selection of an aggregation
-        addAggSelector();
+        addAggSelector();//+
 
-        function addSchemaEditor() {
+        function addSchemaEditor() { //+
           const $schemaEditor = $('<div>').addClass('schemaEditors form-group').appendTo($el);
 
           if ($scope.agg.schema.editor) {
@@ -97,7 +97,7 @@ uiModules
           }
         }
 
-        function addAggSelector() {
+        function addAggSelector() { //+
           const $aggSelect = $(aggSelectHtml).appendTo($el);
           $compile($aggSelect)($scope);
         }
@@ -108,7 +108,7 @@ uiModules
 
         function updateAggParamEditor() {
           updateEditorConfig();
-          $scope.aggHelpLink = null;
+          $scope.aggHelpLink = null;//+
           if (has($scope, 'agg.type.name')) {
             $scope.aggHelpLink = get(documentationLinks, ['aggs', $scope.agg.type.name]);
           }

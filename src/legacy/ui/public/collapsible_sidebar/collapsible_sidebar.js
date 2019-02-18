@@ -79,7 +79,7 @@ uiModules
           if ($scope.toggleSidebar) $scope.toggleSidebar();
         });
 
-        $collapser.appendTo($elem);
+        $collapser.prependTo($elem);
       }
     };
   });

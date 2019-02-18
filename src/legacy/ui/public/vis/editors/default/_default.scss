@@ -20,7 +20,7 @@
   margin-right: $euiSizeL;
   flex-direction: row;
   min-width: $vis-editor-sidebar-min-width;
-  width: $vis-editor-sidebar-min-width;
+  //width: $vis-editor-sidebar-min-width;
   max-width: 100%;
 
   @include euiBreakpoint('xs', 's', 'm') {
