@@ -30,6 +30,7 @@ import aggParamsTemplate from './agg_params.html';
 import { aggTypeFilters } from '../../../agg_types/filter';
 import { editorConfigProviders } from '../config/editor_config_providers';
 import { aggTypeFieldFilters } from '../../../agg_types/param_types/filter';
+import { groupAggregationsByType } from './default_editor_utils';
 
 uiModules
   .get('app/visualize')
@@ -39,7 +40,8 @@ uiModules
       restrict: 'E',
       template: aggParamsTemplate,
       scope: true,
-      link: function ($scope, $el, attr) {
+      require: '^form',
+      link: function ($scope, $el, attr, aggForm) {
         $scope.$bind('agg', attr.agg);
         $scope.$bind('groupName', attr.groupName);
         $scope.$bind('indexPattern', attr.indexPattern);
@@ -55,6 +57,16 @@ uiModules
           updateAggParamEditor();
           updateEditorConfig('default');
         });
+
+        $scope.onFieldTypeChange = (agg, fieldType) => {
+          if(agg.params.field !== fieldType) {
+            agg.params.field = fieldType;
+          }
+
+          if (aggForm && aggForm.field) {
+            aggForm.field.$setDirty();
+          }
+        };
 
         function updateEditorConfig(property = 'fixedValue') {
           $scope.editorConfig = editorConfigProviders.getConfigForAgg(
@@ -148,8 +160,9 @@ uiModules
               // if field param exists, compute allowed fields
               if (param.type === 'field') {
                 const availableFields = param.getAvailableFields($scope.agg.getIndexPattern().fields);
-                fields = $scope.indexedFields = $aggParamEditorsScope[`${param.name}Options`] =
+                fields = $aggParamEditorsScope[`${param.name}Options`] =
                   aggTypeFieldFilters.filter(availableFields, param.type, $scope.agg, $scope.vis);
+                $scope.indexedFields = groupAggregationsByType(fields, 'type', 'displayName');
               }
 
               if (fields) {
@@ -189,17 +202,37 @@ uiModules
             return;
           }
 
+          if (param.type !== 'field') {
+            const attrs = {
+              'agg-param': 'agg.type.params[' + idx + ']'
+            };
+
+            if (param.advanced) {
+              attrs['ng-show'] = 'advancedToggled';
+            }
+
+            return $('<vis-agg-param-editor>')
+              .attr(attrs)
+              .append(param.editor)
+              .get(0);
+          }
+
           const attrs = {
-            'agg-param': 'agg.type.params[' + idx + ']'
+            'agg-param': 'agg.type.params[' + idx + ']',
+            'on-change': 'agg.type.params[' + idx + '].onChange',
+            'on-field-type-change': 'onFieldTypeChange',
+            editor: 'agg.type.params[' + idx + '].editor',
+            agg: 'agg',
+            config: 'config',
+            'indexed-fields': 'indexedFields'
           };
 
           if (param.advanced) {
             attrs['ng-show'] = 'advancedToggled';
           }
 
-          return $('<vis-agg-param-editor>')
+          return $('<default-editor-agg-param ng-model="agg.params.field" required name="field">')
             .attr(attrs)
-            .append(param.editor)
             .get(0);
         }
       }

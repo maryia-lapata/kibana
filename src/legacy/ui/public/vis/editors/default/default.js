@@ -21,6 +21,7 @@ import './sidebar';
 import './vis_options';
 import './vis_editor_resizer';
 import './vis_type_agg_filter';
+import './default_editor_agg_param';
 import $ from 'jquery';
 
 import _ from 'lodash';

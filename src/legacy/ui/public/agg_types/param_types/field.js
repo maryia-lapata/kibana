@@ -19,7 +19,7 @@
 
 import { sortBy } from 'lodash';
 import { SavedObjectNotFound } from '../../errors';
-import editorHtml from '../controls/field.html';
+import { FieldSelect } from '../controls/field';
 import { BaseParamType } from './base';
 import '../../filters/field_type';
 import { IndexedArray } from '../../indexed_array';
@@ -36,7 +36,7 @@ export function FieldParamType(config) {
 
 createLegacyClass(FieldParamType).inherits(BaseParamType);
 
-FieldParamType.prototype.editor = editorHtml;
+FieldParamType.prototype.editor = FieldSelect;
 FieldParamType.prototype.scriptable = true;
 FieldParamType.prototype.filterFieldTypes = '*';
 // retain only the fields with the aggregatable property if the onlyAggregatable option is true
