@@ -58,13 +58,17 @@ uiModules
           updateEditorConfig('default');
         });
 
-        $scope.onFieldTypeChange = (agg, fieldType) => {
-          if(agg.params.field !== fieldType) {
-            agg.params.field = fieldType;
+        $scope.onParamsChange = (type, agg, value, options) => {
+          if(agg.params[type] !== value) {
+            agg.params[type] = value;
           }
 
-          if (aggForm && aggForm.field) {
-            aggForm.field.$setDirty();
+          if (aggForm && aggForm[type]) {
+            aggForm[type].$setDirty();
+
+            if (options && typeof options.isValid === 'boolean') {
+              aggForm[type].$setValidity(type, options.isValid);
+            }
           }
         };
 
@@ -202,7 +206,7 @@ uiModules
             return;
           }
 
-          if (param.type !== 'field') {
+          if (param.type !== 'field' && param.type !== 'json') {
             const attrs = {
               'agg-param': 'agg.type.params[' + idx + ']'
             };
@@ -220,7 +224,7 @@ uiModules
           const attrs = {
             'agg-param': 'agg.type.params[' + idx + ']',
             'on-change': 'agg.type.params[' + idx + '].onChange',
-            'on-field-type-change': 'onFieldTypeChange',
+            'on-params-change': 'onParamsChange',
             editor: 'agg.type.params[' + idx + '].editor',
             agg: 'agg',
             config: 'config',
@@ -229,9 +233,11 @@ uiModules
 
           if (param.advanced) {
             attrs['ng-show'] = 'advancedToggled';
+          } else {
+            attrs.required = 'required';
           }
 
-          return $('<default-editor-agg-param ng-model="agg.params.field" required name="field">')
+          return $(`<default-editor-agg-param ng-model="agg.params.${param.type}" name="${param.type}">`)
             .attr(attrs)
             .get(0);
         }

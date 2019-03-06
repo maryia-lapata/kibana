@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import valuesEditor from '../controls/percentile_ranks.html';
+import { PercentileRanks } from '../controls/percentile_ranks';
 import '../../number_list';
 import { MetricAggType } from './metric_agg_type';
 import { getResponseAggConfigClass } from './get_response_agg_config_class';
@@ -60,7 +60,7 @@ export const percentileRanksMetricAgg = new MetricAggType({
     },
     {
       name: 'values',
-      editor: valuesEditor,
+      editor: PercentileRanks,
       default: []
     },
     {

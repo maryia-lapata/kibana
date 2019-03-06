@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import editorHtml from '../controls/string.html';
+import { StringSelect } from '../controls/string';
 import { BaseParamType } from './base';
 import { createLegacyClass } from '../../utils/legacy_class';
 
@@ -26,7 +26,7 @@ function StringParamType(config) {
   StringParamType.Super.call(this, config);
 }
 
-StringParamType.prototype.editor = editorHtml;
+StringParamType.prototype.editor = StringSelect;
 
 /**
  * Write the aggregation parameter.

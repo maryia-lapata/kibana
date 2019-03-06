@@ -26,16 +26,16 @@ interface DefaultEditorAggParamProps {
   aggParam: any;
   config: any;
   editor: any;
-  onChange: any;
-  onFieldTypeChange: any;
-  indexedFields: any;
+  onChange: (agg: AggConfig) => void;
+  onParamsChange: (type: string, agg: AggConfig, field: any, options: { isValid: boolean }) => void;
+  indexedFields: any[];
 }
 
 function DefaultEditorAggParam({
   agg,
   aggParam,
   onChange,
-  onFieldTypeChange,
+  onParamsChange,
   config,
   editor,
   indexedFields,
@@ -56,7 +56,7 @@ function DefaultEditorAggParam({
           agg={agg}
           aggParam={aggParam}
           onChange={onChange}
-          onFieldTypeChange={onFieldTypeChange}
+          onParamsChange={onParamsChange}
           config={config}
           optionEnabled={optionEnabled}
           indexedFields={indexedFields}

@@ -17,19 +17,23 @@
  * under the License.
  */
 
-import 'ngreact';
-import { uiModules } from '../../../modules';
-import { DefaultEditorAggParam } from './components/default_editor_agg_param';
-import { wrapInI18nContext } from 'ui/i18n';
+function isValidJson(value: string) {
+  if (!value || value.length === 0) {
+    return true;
+  }
 
-uiModules
-  .get('app/kibana', ['react'])
-  .directive('defaultEditorAggParam', reactDirective => reactDirective(wrapInI18nContext(DefaultEditorAggParam), [
-    'config',
-    'editor',
-    'onChange',
-    'onParamsChange',
-    ['agg', { watchDepth: 'collection' }],
-    ['aggParam', { watchDepth: 'reference' }],
-    ['indexedFields', { watchDepth: 'collection' }]
-  ]));
+  const trimmedValue = value.trim();
+
+  if (trimmedValue[0] === '{' || trimmedValue[0] === '[') {
+    try {
+      JSON.parse(trimmedValue);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
+export { isValidJson };
