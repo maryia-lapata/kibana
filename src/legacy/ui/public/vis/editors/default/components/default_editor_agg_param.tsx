@@ -26,8 +26,11 @@ interface DefaultEditorAggParamProps {
   aggParam: any;
   config: any;
   editor: any;
+  isAdvanced: boolean;
   onChange: (agg: AggConfig) => void;
-  onParamsChange: (type: string, agg: AggConfig, field: any, options: { isValid: boolean }) => void;
+  onParamsChange: (type: string, agg: AggConfig, value: any) => void;
+  setFormDirty: (type: string) => void;
+  setFormValidity: (type: string, options?: { isValid: boolean; isSetFormDirty: boolean }) => void;
   indexedFields: any[];
 }
 
@@ -36,8 +39,11 @@ function DefaultEditorAggParam({
   aggParam,
   onChange,
   onParamsChange,
+  setFormDirty,
+  setFormValidity,
   config,
   editor,
+  isAdvanced,
   indexedFields,
 }: DefaultEditorAggParamProps) {
   const optionEnabled = (option: any) => {
@@ -47,23 +53,39 @@ function DefaultEditorAggParam({
 
     return true;
   };
+  const updateParam = (
+    type: string,
+    aggObject: AggConfig,
+    value: any,
+    options?: { isValid: boolean; isSetFormDirty: boolean }
+  ) => {
+    onParamsChange(type, aggObject, value);
+
+    if (options && options.isSetFormDirty) {
+      setFormDirty(type);
+    }
+
+    if (options && typeof options.isValid === 'boolean') {
+      setFormValidity(type, options);
+    }
+  };
   const Component = editor;
 
-  return (
-    <Fragment>
-      {Component && (
-        <Component
-          agg={agg}
-          aggParam={aggParam}
-          onChange={onChange}
-          onParamsChange={onParamsChange}
-          config={config}
-          optionEnabled={optionEnabled}
-          indexedFields={indexedFields}
-        />
-      )}
-    </Fragment>
-  );
+  if (Component) {
+    return (
+      <Component
+        agg={agg}
+        aggParam={aggParam}
+        onChange={onChange}
+        onParamsChange={updateParam}
+        config={config}
+        optionEnabled={optionEnabled}
+        indexedFields={indexedFields}
+      />
+    );
+  }
+
+  return null;
 }
 
 export { DefaultEditorAggParam };

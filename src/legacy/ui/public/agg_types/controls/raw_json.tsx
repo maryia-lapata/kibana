@@ -21,7 +21,7 @@ import { EuiFormRow, EuiIcon, EuiTextArea, EuiToolTip } from '@elastic/eui';
 import { i18n } from '@kbn/i18n';
 import { FormattedMessage } from '@kbn/i18n/react';
 import { get } from 'lodash';
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { AggConfig } from 'ui/vis/agg_config';
 import { isValidJson } from '../utils';
 
@@ -31,7 +31,7 @@ interface RawJSONSelectProps {
     type: string,
     agg: AggConfig,
     field: any,
-    options?: { isValid: boolean }
+    options?: { isValid?: boolean; isSetFormDirty: boolean }
   ) => void;
 }
 
@@ -39,7 +39,7 @@ function RawJSONSelect({ agg = {}, onParamsChange }: RawJSONSelectProps) {
   const [isInvalid, setIsInvalid] = useState(false);
 
   const label = (
-    <Fragment>
+    <>
       <FormattedMessage id="common.ui.aggTypes.jsonInputLabel" defaultMessage="JSON Input" />{' '}
       <EuiToolTip
         position="right"
@@ -50,17 +50,17 @@ function RawJSONSelect({ agg = {}, onParamsChange }: RawJSONSelectProps) {
       >
         <EuiIcon type="questionInCircle" />
       </EuiToolTip>
-    </Fragment>
+    </>
   );
   const onTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value: string = get(e, 'target.value');
     const isValid = isValidJson(value);
     setIsInvalid(!isValid);
-    onParamsChange('json', agg, value, { isValid });
+    onParamsChange('json', agg, value, { isValid, isSetFormDirty: true });
   };
 
   return (
-    <EuiFormRow label={label} isInvalid={isInvalid}>
+    <EuiFormRow label={label} isInvalid={isInvalid} className="form-group">
       <EuiTextArea
         id={`visEditorRawJson${agg.id}`}
         isInvalid={isInvalid}

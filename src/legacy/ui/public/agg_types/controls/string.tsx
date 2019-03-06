@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { EuiFieldText, EuiFormRow } from '@elastic/eui';
+import { EuiFieldText, EuiFormRow, EuiSpacer } from '@elastic/eui';
 import { get } from 'lodash';
 import React from 'react';
 import { AggConfig } from 'ui/vis/agg_config';
@@ -29,18 +29,18 @@ interface StringSelectProps {
     type: string,
     agg: AggConfig,
     field: any,
-    options?: { isValid: boolean }
+    options?: { isValid?: boolean; isSetFormDirty: boolean }
   ) => void;
 }
 
 function StringSelect({ agg = {}, aggParam = {}, onParamsChange }: StringSelectProps) {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value: string = get(e, 'target.value');
-    onParamsChange(aggParam.name, agg, value);
+    onParamsChange(aggParam.name, agg, value, { isSetFormDirty: true });
   };
 
   return (
-    <EuiFormRow label={aggParam.name}>
+    <EuiFormRow label={aggParam.displayName || aggParam.name} className="form-group">
       <EuiFieldText id={`visEditorStringInput${agg.id}${aggParam.name}`} onChange={onChange} />
     </EuiFormRow>
   );

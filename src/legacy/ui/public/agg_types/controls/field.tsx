@@ -29,7 +29,12 @@ interface FieldSelectProps {
   agg: AggConfig;
   indexedFields: any[];
   onChange: (agg: AggConfig) => void | undefined;
-  onParamsChange: (type: string, agg: AggConfig, field: any) => void;
+  onParamsChange: (
+    type: string,
+    agg: AggConfig,
+    field: any,
+    options?: { isValid?: boolean; isSetFormDirty: boolean }
+  ) => void;
 }
 
 type ComboBoxGroupedOption = EuiComboBoxOptionProps & {
@@ -59,17 +64,17 @@ function FieldSelect({ agg = {}, indexedFields = [], onChange, onParamsChange }:
   };
   const onBlur = () => {
     if (selectedOptions.length === 0) {
-      triggerValidation(true, selectedOptions);
+      //triggerValidation(true, selectedOptions);
     }
   };
 
   function triggerValidation(isValid: boolean, selectedItems: ComboBoxGroupedOption[]) {
     setIsInvalid(isValid);
-    onParamsChange('field', agg, get(selectedItems, '0.value'));
+    onParamsChange('field', agg, get(selectedItems, '0.value'), { isSetFormDirty: true });
   }
 
   return (
-    <EuiFormRow label={label} isInvalid={isInvalid}>
+    <EuiFormRow label={label} isInvalid={isInvalid} className="form-group">
       {indexedFields.length ? (
         <EuiComboBox
           placeholder={i18n.translate('common.ui.aggTypes.field.selectFieldPlaceholder', {

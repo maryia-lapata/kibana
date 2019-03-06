@@ -309,6 +309,7 @@ export const termsBucketAgg = new BucketAggType({
     },
     {
       name: 'exclude',
+      displayName: i18n.translate('common.ui.aggTypes.buckets.terms.excludeLabel', { defaultMessage: 'Exclude' }),
       type: 'string',
       advanced: true,
       disabled: isNotType('string'),
@@ -316,6 +317,7 @@ export const termsBucketAgg = new BucketAggType({
     },
     {
       name: 'include',
+      displayName: i18n.translate('common.ui.aggTypes.buckets.terms.includeLabel', { defaultMessage: 'Include' }),
       type: 'string',
       advanced: true,
       disabled: isNotType('string'),

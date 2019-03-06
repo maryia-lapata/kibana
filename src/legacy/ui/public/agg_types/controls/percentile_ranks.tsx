@@ -29,7 +29,7 @@ interface PercentileRanksProps {
     type: string,
     agg: AggConfig,
     field: any,
-    options?: { isValid: boolean }
+    options?: { isValid?: boolean; isSetFormDirty: boolean }
   ) => void;
 }
 
@@ -37,11 +37,11 @@ function PercentileRanks({ agg = {}, onParamsChange }: PercentileRanksProps) {
   const label = i18n.translate('common.ui.aggTypes.valuesLabel', { defaultMessage: 'Values' });
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(get(e, 'target.value'), 10);
-    onParamsChange('values', agg, value);
+    onParamsChange('values', agg, value, { isSetFormDirty: false });
   };
 
   return (
-    <EuiFormRow label={label} id={`visEditorPercentileRanksLabel${agg.id}`}>
+    <EuiFormRow label={label} id={`visEditorPercentileRanksLabel${agg.id}`} className="form-group">
       <EuiFieldNumber min={-Infinity} max={Infinity} onChange={onChange} />
     </EuiFormRow>
   );

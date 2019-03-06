@@ -27,8 +27,11 @@ uiModules
   .directive('defaultEditorAggParam', reactDirective => reactDirective(wrapInI18nContext(DefaultEditorAggParam), [
     'config',
     'editor',
+    'isAdvanced',
     'onChange',
     'onParamsChange',
+    'setFormDirty',
+    'setFormValidity',
     ['agg', { watchDepth: 'collection' }],
     ['aggParam', { watchDepth: 'reference' }],
     ['indexedFields', { watchDepth: 'collection' }]

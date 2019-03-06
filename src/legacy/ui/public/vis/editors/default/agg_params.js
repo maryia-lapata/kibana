@@ -58,17 +58,21 @@ uiModules
           updateEditorConfig('default');
         });
 
-        $scope.onParamsChange = (type, agg, value, options) => {
+        $scope.onParamsChange = (type, agg, value) => {
           if(agg.params[type] !== value) {
             agg.params[type] = value;
           }
+        };
 
+        $scope.setFormDirty = (type) => {
           if (aggForm && aggForm[type]) {
             aggForm[type].$setDirty();
+          }
+        };
 
-            if (options && typeof options.isValid === 'boolean') {
-              aggForm[type].$setValidity(type, options.isValid);
-            }
+        $scope.setFormValidity = (type, options) => {
+          if (options && typeof options.isValid === 'boolean') {
+            aggForm[type].$setValidity(type, options.isValid);
           }
         };
 
@@ -158,13 +162,15 @@ uiModules
             .forEach(function (param, i) {
               let aggParam;
               let fields;
+              let paramOptionsName;
               if ($scope.agg.schema.hideCustomLabel && param.name === 'customLabel') {
                 return;
               }
               // if field param exists, compute allowed fields
               if (param.type === 'field') {
                 const availableFields = param.getAvailableFields($scope.agg.getIndexPattern().fields);
-                fields = $aggParamEditorsScope[`${param.name}Options`] =
+                paramOptionsName = `${param.name}Options`;
+                fields = $aggParamEditorsScope[paramOptionsName] =
                   aggTypeFieldFilters.filter(availableFields, param.type, $scope.agg, $scope.vis);
                 $scope.indexedFields = groupAggregationsByType(fields, 'type', 'displayName');
               }
@@ -181,7 +187,7 @@ uiModules
               let type = 'basic';
               if (param.advanced) type = 'advanced';
 
-              if (aggParam = getAggParamHTML(param, i)) {
+              if (aggParam = getAggParamHTML(param, i, paramOptionsName)) {
                 aggParamHTML[type].push(aggParam);
               }
 
@@ -200,13 +206,13 @@ uiModules
         }
 
         // build HTML editor given an aggParam and index
-        function getAggParamHTML(param, idx) {
+        function getAggParamHTML(param, idx, paramOptionsName) {
         // don't show params without an editor
           if (!param.editor) {
             return;
           }
 
-          if (param.type !== 'field' && param.type !== 'json') {
+          if (param.type !== 'field' && param.type !== 'json' && param.type !== 'string' && param.name !== 'values' && param.name !== 'sortOrder') {
             const attrs = {
               'agg-param': 'agg.type.params[' + idx + ']'
             };
@@ -225,19 +231,32 @@ uiModules
             'agg-param': 'agg.type.params[' + idx + ']',
             'on-change': 'agg.type.params[' + idx + '].onChange',
             'on-params-change': 'onParamsChange',
+            'set-form-dirty': 'setFormDirty',
+            'set-form-validity': 'setFormValidity',
             editor: 'agg.type.params[' + idx + '].editor',
             agg: 'agg',
             config: 'config',
             'indexed-fields': 'indexedFields'
           };
 
+          attrs[paramOptionsName] = paramOptionsName;
+
           if (param.advanced) {
             attrs['ng-show'] = 'advancedToggled';
-          } else {
+            attrs.isAdvanced = true;
+          } else if (param.name !== 'customLabel') {
             attrs.required = 'required';
           }
 
-          return $(`<default-editor-agg-param ng-model="agg.params.${param.type}" name="${param.type}">`)
+          if (param.type === 'optioned') {
+            attrs['ng-model'] = `agg.params.${param.name}`;
+            attrs.name = param.name;
+          } else {
+            attrs['ng-model'] = `agg.params.${param.type}`;
+            attrs.name = param.type;
+          }
+
+          return $('<default-editor-agg-param>')
             .attr(attrs)
             .get(0);
         }

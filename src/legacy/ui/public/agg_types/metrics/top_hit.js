@@ -19,7 +19,7 @@
 
 import _ from 'lodash';
 import { MetricAggType } from './metric_agg_type';
-import topSortEditor from '../controls/top_sort.html';
+import { TopSortSelect } from '../controls/top_sort';
 import aggregateAndSizeEditor from '../controls/top_aggregate_and_size.html';
 import { aggTypeFieldFilters } from '../param_types/filter';
 import { i18n } from '@kbn/i18n';
@@ -92,74 +92,7 @@ export const topHitMetricAgg = new MetricAggType({
         }
       }
     },
-    {
-      name: 'aggregate',
-      type: 'optioned',
-      editor: aggregateAndSizeEditor,
-      options: [
-        {
-          display: i18n.translate('common.ui.aggTypes.metrics.topHit.minLabel', {
-            defaultMessage: 'Min'
-          }),
-          isCompatibleType: isNumber,
-          isCompatibleVis: _.constant(true),
-          disabled: true,
-          val: 'min'
-        },
-        {
-          display: i18n.translate('common.ui.aggTypes.metrics.topHit.maxLabel', {
-            defaultMessage: 'Max'
-          }),
-          isCompatibleType: isNumber,
-          isCompatibleVis: _.constant(true),
-          disabled: true,
-          val: 'max'
-        },
-        {
-          display: i18n.translate('common.ui.aggTypes.metrics.topHit.sumLabel', {
-            defaultMessage: 'Sum'
-          }),
-          isCompatibleType: isNumber,
-          isCompatibleVis: _.constant(true),
-          disabled: true,
-          val: 'sum'
-        },
-        {
-          display: i18n.translate('common.ui.aggTypes.metrics.topHit.averageLabel', {
-            defaultMessage: 'Average'
-          }),
-          isCompatibleType: isNumber,
-          isCompatibleVis: _.constant(true),
-          disabled: true,
-          val: 'average'
-        },
-        {
-          display: i18n.translate('common.ui.aggTypes.metrics.topHit.concatenateLabel', {
-            defaultMessage: 'Concatenate'
-          }),
-          isCompatibleType: _.constant(true),
-          isCompatibleVis: function (name) {
-            return name === 'metric' || name === 'table';
-          },
-          disabled: true,
-          val: 'concat'
-        }
-      ],
-      controller: function ($scope) {
-        $scope.options = [];
-        $scope.$watchGroup([ 'vis.type.name', 'agg.params.field.type' ], function ([ visName, fieldType ]) {
-          if (fieldType && visName) {
-            $scope.options = _.filter($scope.aggParam.options, option => {
-              return option.isCompatibleVis(visName) && option.isCompatibleType(fieldType);
-            });
-            if ($scope.options.length === 1) {
-              $scope.agg.params.aggregate = $scope.options[0];
-            }
-          }
-        });
-      },
-      write: _.noop
-    },
+    
     {
       name: 'size',
       editor: null, // size setting is done together with the aggregation setting
@@ -179,7 +112,7 @@ export const topHitMetricAgg = new MetricAggType({
       name: 'sortOrder',
       type: 'optioned',
       default: 'desc',
-      editor: topSortEditor,
+      editor: TopSortSelect,
       options: [
         {
           display: i18n.translate('common.ui.aggTypes.metrics.topHit.descendingLabel', {
