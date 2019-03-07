@@ -162,15 +162,13 @@ uiModules
             .forEach(function (param, i) {
               let aggParam;
               let fields;
-              let paramOptionsName;
               if ($scope.agg.schema.hideCustomLabel && param.name === 'customLabel') {
                 return;
               }
               // if field param exists, compute allowed fields
               if (param.type === 'field') {
                 const availableFields = param.getAvailableFields($scope.agg.getIndexPattern().fields);
-                paramOptionsName = `${param.name}Options`;
-                fields = $aggParamEditorsScope[paramOptionsName] =
+                fields = $aggParamEditorsScope[`${param.name}Options`] =
                   aggTypeFieldFilters.filter(availableFields, param.type, $scope.agg, $scope.vis);
                 $scope.indexedFields = groupAggregationsByType(fields, 'type', 'displayName');
               }
@@ -187,7 +185,7 @@ uiModules
               let type = 'basic';
               if (param.advanced) type = 'advanced';
 
-              if (aggParam = getAggParamHTML(param, i, paramOptionsName)) {
+              if (aggParam = getAggParamHTML(param, i)) {
                 aggParamHTML[type].push(aggParam);
               }
 
@@ -206,13 +204,17 @@ uiModules
         }
 
         // build HTML editor given an aggParam and index
-        function getAggParamHTML(param, idx, paramOptionsName) {
+        function getAggParamHTML(param, idx) {
         // don't show params without an editor
           if (!param.editor) {
             return;
           }
 
-          if (param.type !== 'field' && param.type !== 'json' && param.type !== 'string' && param.name !== 'values' && param.name !== 'sortOrder') {
+          if (param.type !== 'field'
+            && param.type !== 'json'
+            && param.type !== 'string'
+            && param.name !== 'values'
+            && param.name !== 'sortOrder') {
             const attrs = {
               'agg-param': 'agg.type.params[' + idx + ']'
             };
@@ -236,25 +238,18 @@ uiModules
             editor: 'agg.type.params[' + idx + '].editor',
             agg: 'agg',
             config: 'config',
+            vis: 'vis',
             'indexed-fields': 'indexedFields'
           };
 
-          attrs[paramOptionsName] = paramOptionsName;
-
           if (param.advanced) {
             attrs['ng-show'] = 'advancedToggled';
-            attrs.isAdvanced = true;
           } else if (param.name !== 'customLabel') {
             attrs.required = 'required';
           }
 
-          if (param.type === 'optioned') {
-            attrs['ng-model'] = `agg.params.${param.name}`;
-            attrs.name = param.name;
-          } else {
-            attrs['ng-model'] = `agg.params.${param.type}`;
-            attrs.name = param.type;
-          }
+          attrs['ng-model'] = `agg.params.${param.name}`;
+          attrs.name = param.name;
 
           return $('<default-editor-agg-param>')
             .attr(attrs)

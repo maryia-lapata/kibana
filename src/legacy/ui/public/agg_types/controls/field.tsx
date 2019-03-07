@@ -62,11 +62,6 @@ function FieldSelect({ agg = {}, indexedFields = [], onChange, onParamsChange }:
       }
     }
   };
-  const onBlur = () => {
-    if (selectedOptions.length === 0) {
-      //triggerValidation(true, selectedOptions);
-    }
-  };
 
   function triggerValidation(isValid: boolean, selectedItems: ComboBoxGroupedOption[]) {
     setIsInvalid(isValid);
@@ -86,7 +81,6 @@ function FieldSelect({ agg = {}, indexedFields = [], onChange, onParamsChange }:
           isClearable={false}
           isInvalid={isInvalid}
           onChange={onSelectionChange}
-          onBlur={onBlur}
           data-test-subj="field-select"
         />
       ) : (

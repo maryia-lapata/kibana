@@ -26,6 +26,7 @@ interface DefaultEditorAggParamProps {
   aggParam: any;
   config: any;
   editor: any;
+  vis: any;
   isAdvanced: boolean;
   onChange: (agg: AggConfig) => void;
   onParamsChange: (type: string, agg: AggConfig, value: any) => void;
@@ -43,7 +44,7 @@ function DefaultEditorAggParam({
   setFormValidity,
   config,
   editor,
-  isAdvanced,
+  vis,
   indexedFields,
 }: DefaultEditorAggParamProps) {
   const optionEnabled = (option: any) => {
@@ -75,6 +76,7 @@ function DefaultEditorAggParam({
     return (
       <Component
         agg={agg}
+        vis={vis}
         aggParam={aggParam}
         onChange={onChange}
         onParamsChange={updateParam}
