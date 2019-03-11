@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { EuiFieldText, EuiFormRow, EuiSpacer } from '@elastic/eui';
+import { EuiFieldText, EuiFormRow } from '@elastic/eui';
 import { get } from 'lodash';
 import React from 'react';
 import { AggConfig } from 'ui/vis/agg_config';

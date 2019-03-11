@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import _ from 'lodash';
-import React, { Fragment } from 'react';
+import { isFunction } from 'lodash';
+import React from 'react';
 import { AggConfig } from 'ui/vis/agg_config';
 
 interface DefaultEditorAggParamProps {
@@ -48,7 +48,7 @@ function DefaultEditorAggParam({
   indexedFields,
 }: DefaultEditorAggParamProps) {
   const optionEnabled = (option: any) => {
-    if (option && _.isFunction(option.enabled)) {
+    if (option && isFunction(option.enabled)) {
       return option.enabled(agg);
     }
 

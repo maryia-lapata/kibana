@@ -68,19 +68,28 @@ function TopAggregateSelect({
   );
   const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value: string = get(e, 'target.value');
-    onParamsChange('aggregate', agg, value, { isSetFormDirty: true });
+    onParamsChange('aggregate', agg, aggParam.options.find((opt: AggOption) => opt.val === value), {
+      isSetFormDirty: true,
+    });
   };
 
-  const options = aggParam.options.filter((option: AggOption) => {
-    return (
-      option.isCompatibleVis(vis.type.name) &&
-      option.isCompatibleType(get(agg, 'params.field.type'))
-    );
-  });
+  const options = aggParam.options
+    .filter((option: AggOption) => {
+      return (
+        option.isCompatibleVis(vis.type.name) &&
+        option.isCompatibleType(get(agg, 'params.field.type'))
+      );
+    })
+    .map((opt: AggOption) => ({ text: opt.display, val: opt }));
 
   return (
     <EuiFormRow label={label} className="form-group">
-      <EuiSelect id={`visEditorTopHitsAggregate${agg.id}`} options={options} onChange={onChange} />
+      <EuiSelect
+        id={`visEditorTopHitsAggregate${agg.id}`}
+        options={options}
+        onChange={onChange}
+        hasNoInitialSelection={true}
+      />
     </EuiFormRow>
   );
 }

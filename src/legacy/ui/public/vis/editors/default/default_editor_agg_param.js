@@ -31,6 +31,8 @@ uiModules
     'onParamsChange',
     'setFormDirty',
     'setFormValidity',
+    'fieldType',
+    'visType',
     ['agg', { watchDepth: 'collection' }],
     ['aggParam', { watchDepth: 'reference' }],
     ['vis', { watchDepth: 'reference' }],

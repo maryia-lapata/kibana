@@ -214,6 +214,8 @@ uiModules
             && param.type !== 'json'
             && param.type !== 'string'
             && param.name !== 'values'
+            && param.name !== 'aggregate'
+            && param.name !== 'size'
             && param.name !== 'sortOrder') {
             const attrs = {
               'agg-param': 'agg.type.params[' + idx + ']'
@@ -246,6 +248,12 @@ uiModules
             attrs['ng-show'] = 'advancedToggled';
           } else if (param.name !== 'customLabel') {
             attrs.required = 'required';
+          }
+
+          if (param.name === 'aggregate'
+            || param.name === 'size') {
+            attrs['field-type'] = 'agg.params.field.type';
+            attrs['vis-type'] = 'vis.type.name';
           }
 
           attrs['ng-model'] = `agg.params.${param.name}`;

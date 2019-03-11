@@ -22,6 +22,7 @@ import { MetricAggType } from './metric_agg_type';
 import { SortOrderSelect } from '../controls/sort_order';
 import { SortFieldSelect } from '../controls/sort_field';
 import { TopAggregateSelect } from '../controls/top_aggregate';
+import { SizeSelect } from '../controls/size';
 import { aggTypeFieldFilters } from '../param_types/filter';
 import { i18n } from '@kbn/i18n';
 
@@ -163,7 +164,7 @@ export const topHitMetricAgg = new MetricAggType({
     },
     {
       name: 'size',
-      editor: null, // size setting is done together with the aggregation setting
+      editor: SizeSelect,
       default: 1
     },
     {
