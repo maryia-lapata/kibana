@@ -50,7 +50,7 @@ function RawJSONSelect({ agg = {}, value, setValue }: RawJSONSelectProps) {
   );
   const onTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const fieldValue: string = get(e, 'target.value');
-    const isValid = isValidJson(value);
+    const isValid = isValidJson(fieldValue);
     setIsInvalid(!isValid);
     setValue(fieldValue, { isValid });
   };

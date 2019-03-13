@@ -39,8 +39,7 @@ uiModules
       restrict: 'E',
       template: aggParamsTemplate,
       scope: true,
-      require: '^form',
-      link: function ($scope, $el, attr, aggForm) {
+      link: function ($scope, $el, attr) {
         $scope.$bind('agg', attr.agg);
         $scope.$bind('groupName', attr.groupName);
         $scope.$bind('indexPattern', attr.indexPattern);
@@ -57,17 +56,9 @@ uiModules
           updateEditorConfig('default');
         });
 
-        $scope.onParamChange = (agg, paramName, value, options) => {
+        $scope.onParamChange = (agg, paramName, value) => {
           if(agg.params[paramName] !== value) {
             agg.params[paramName] = value;
-          }
-
-          if (aggForm) {
-            aggForm[paramName].$setDirty();
-          }
-
-          if (options && typeof options.isValid === 'boolean') {
-            aggForm[paramName].$setValidity(paramName, options.isValid);
           }
         };
 
@@ -208,6 +199,7 @@ uiModules
             'agg-param': 'agg.type.params[' + idx + ']',
             'agg': 'agg',
           };
+          attrs['ng-model'] = `someModal${param.name}`;
 
           if (param.advanced) {
             attrs['ng-show'] = 'advancedToggled';
@@ -215,8 +207,6 @@ uiModules
 
           if (param.editorComponent) {
             attrs['editor-component'] = `agg.type.params[${idx}].editorComponent`;
-            attrs['ng-model'] = `agg.params.${param.name}`;
-            attrs.name = param.name;
           }
           return $('<vis-agg-param-editor>')
             .attr(attrs)
