@@ -17,5 +17,21 @@
  * under the License.
  */
 
-export { AggParam } from './agg_param';
-export { AggType } from './agg_type';
+import React from 'react';
+
+import { EuiFieldText, EuiFormRow } from '@elastic/eui';
+import { AggParamEditorProps } from '../../vis/editors/default';
+
+function StringParamEditor({ agg, aggParam, value, setValue }: AggParamEditorProps<string>) {
+  return (
+    <EuiFormRow label={aggParam.displayName || aggParam.name} className="form-group">
+      <EuiFieldText
+        value={value || ''}
+        data-test-subj={`visEditorStringInput${agg.id}${aggParam.name}`}
+        onChange={ev => setValue(ev.target.value)}
+      />
+    </EuiFormRow>
+  );
+}
+
+export { StringParamEditor };

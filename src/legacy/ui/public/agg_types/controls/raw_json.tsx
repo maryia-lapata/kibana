@@ -27,15 +27,11 @@ import { isValidJson } from '../utils';
 
 interface RawJSONSelectProps {
   agg: AggConfig;
-  onParamsChange: (
-    type: string,
-    agg: AggConfig,
-    field: any,
-    options?: { isValid?: boolean }
-  ) => void;
+  value: any;
+  setValue: (value: any, options?: { isValid?: boolean }) => void;
 }
 
-function RawJSONSelect({ agg = {}, onParamsChange }: RawJSONSelectProps) {
+function RawJSONSelect({ agg = {}, value, setValue }: RawJSONSelectProps) {
   const [isInvalid, setIsInvalid] = useState(false);
 
   const label = (
@@ -53,16 +49,17 @@ function RawJSONSelect({ agg = {}, onParamsChange }: RawJSONSelectProps) {
     </>
   );
   const onTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value: string = get(e, 'target.value');
+    const fieldValue: string = get(e, 'target.value');
     const isValid = isValidJson(value);
     setIsInvalid(!isValid);
-    onParamsChange('json', agg, value, { isValid });
+    setValue(fieldValue, { isValid });
   };
 
   return (
     <EuiFormRow label={label} isInvalid={isInvalid} className="form-group">
       <EuiTextArea
         id={`visEditorRawJson${agg.id}`}
+        value={value}
         isInvalid={isInvalid}
         onChange={onTextAreaChange}
         rows={2}
