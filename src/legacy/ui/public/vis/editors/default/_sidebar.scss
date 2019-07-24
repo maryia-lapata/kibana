@@ -223,3 +223,11 @@
 .visEditorSidebar__aggGroup .euiAccordion__button {
   padding-left: 2px;
 }
+
+.visEditorSidebar__aggGroupAccordionButtonContent {
+  font-size: $euiFontSizeS;
+
+  span {
+    color: $euiColorDarkShade;
+  }
+}
