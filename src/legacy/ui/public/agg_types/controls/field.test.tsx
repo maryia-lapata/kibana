@@ -22,6 +22,7 @@ import { act } from 'react-dom/test-utils';
 import { mount, shallow } from 'enzyme';
 import { FieldParamType } from '../';
 import { FieldParamEditor, FieldParamEditorProps } from './field';
+import { AggConfig } from '../../vis';
 
 describe('FieldParamEditor component', () => {
   let setValue: jest.Mock;
@@ -47,7 +48,7 @@ describe('FieldParamEditor component', () => {
       aggParam: {
         name: 'field',
         type: 'field',
-        editorComponent: null,
+        editorComponent: null as any,
         onChange,
       },
       value: undefined,
@@ -58,7 +59,7 @@ describe('FieldParamEditor component', () => {
       setValidity,
       setTouched,
       state: {} as any,
-      metricAggs: null,
+      metricAggs: [] as AggConfig[],
       subAggParams: {} as any,
     };
   });
@@ -137,10 +138,7 @@ describe('FieldParamEditor component', () => {
     expect(setValue).toHaveBeenCalledTimes(0);
 
     act(() => {
-      comp
-        .find('EuiComboBox')
-        .props()
-        .onChange([] as any);
+      (comp.find('EuiComboBox').props() as any).onChange([] as any);
     });
 
     expect(setValue).toHaveBeenCalledTimes(1);
@@ -153,10 +151,7 @@ describe('FieldParamEditor component', () => {
     expect(setValue).toHaveBeenCalledTimes(1);
 
     act(() => {
-      comp
-        .find('EuiComboBox')
-        .props()
-        .onChange([] as any);
+      (comp.find('EuiComboBox').props() as any).onChange([] as any);
     });
 
     expect(setValue).toHaveBeenCalledTimes(1);
