@@ -23,14 +23,14 @@ import React, { useEffect } from 'react';
 import { EuiComboBox, EuiComboBoxOptionProps, EuiFormRow } from '@elastic/eui';
 import { i18n } from '@kbn/i18n';
 import { AggConfig } from 'ui/vis';
+import { Field } from 'ui/index_patterns';
 import { formatListAsProse, parseCommaSeparatedList } from '../../../../utils';
 import { AggParamEditorProps } from '../../vis/editors/default';
 import { ComboBoxGroupedOption } from '../../vis/editors/default/default_editor_utils';
-import { FieldParamType } from '../param_types';
 
 const label = i18n.translate('common.ui.aggTypes.field.fieldLabel', { defaultMessage: 'Field' });
 
-interface FieldParamEditorProps extends AggParamEditorProps<FieldParamType> {
+export interface FieldParamEditorProps extends AggParamEditorProps<Field> {
   customError?: string;
   customLabel?: string;
 }
@@ -48,11 +48,12 @@ function FieldParamEditor({
   setValue,
 }: FieldParamEditorProps) {
   const selectedOptions: ComboBoxGroupedOption[] = value
-    ? [{ label: value.displayName, value }]
+    ? [{ label: value.displayName || value.name, value: value as any }]
     : [];
 
   const onChange = (options: EuiComboBoxOptionProps[]) => {
-    const selectedOption = get(options, '0.value');
+    const selectedOption: Field = get(options, '0.value');
+
     if (!(aggParam.required && !selectedOption)) {
       setValue(selectedOption);
     }
