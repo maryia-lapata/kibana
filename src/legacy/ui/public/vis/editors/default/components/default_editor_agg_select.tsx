@@ -19,17 +19,17 @@
 import { get, has } from 'lodash';
 import React, { useEffect } from 'react';
 
-import { EuiComboBox, EuiComboBoxOptionProps, EuiFormRow, EuiLink } from '@elastic/eui';
+import { EuiComboBox, EuiComboBoxOptionProps, EuiFormRow, EuiLink, EuiText } from '@elastic/eui';
 import { i18n } from '@kbn/i18n';
 import { FormattedMessage } from '@kbn/i18n/react';
 import { AggType } from 'ui/agg_types';
 import { IndexPattern } from 'ui/index_patterns';
 import { documentationLinks } from '../../../../documentation_links/documentation_links';
-import { ComboBoxGroupedOption } from '../default_editor_utils';
+import { ComboBoxGroupedOptions } from '../default_editor_utils';
 
 interface DefaultEditorAggSelectProps {
-  aggError?: string | null;
-  aggTypeOptions: Array<ComboBoxGroupedOption<AggType>>;
+  aggError?: string;
+  aggTypeOptions: ComboBoxGroupedOptions<AggType>;
   id: string;
   indexPattern: IndexPattern;
   showValidation: boolean;
@@ -52,7 +52,7 @@ function DefaultEditorAggSelect({
   setTouched,
   setValidity,
 }: DefaultEditorAggSelectProps) {
-  const selectedOptions: Array<ComboBoxGroupedOption<AggType>> = value
+  const selectedOptions: ComboBoxGroupedOptions<AggType> = value
     ? [{ label: value.title, target: value }]
     : [];
 
@@ -74,17 +74,14 @@ function DefaultEditorAggSelect({
   }
 
   const helpLink = value && aggHelpLink && (
-    <EuiLink
-      href={aggHelpLink}
-      target="_blank"
-      rel="noopener"
-      className="visEditorAggSelect__helpLink"
-    >
-      <FormattedMessage
-        id="common.ui.vis.defaultEditor.aggSelect.helpLinkLabel"
-        defaultMessage="{aggTitle} help"
-        values={{ aggTitle: value ? value.title : '' }}
-      />
+    <EuiLink href={aggHelpLink} target="_blank" rel="noopener">
+      <EuiText size="xs">
+        <FormattedMessage
+          id="common.ui.vis.defaultEditor.aggSelect.helpLinkLabel"
+          defaultMessage="{aggTitle} help"
+          values={{ aggTitle: value ? value.title : '' }}
+        />
+      </EuiText>
     </EuiLink>
   );
 

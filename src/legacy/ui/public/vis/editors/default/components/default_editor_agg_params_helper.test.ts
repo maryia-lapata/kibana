@@ -18,8 +18,9 @@
  */
 
 import { AggConfig, VisState } from 'ui/vis';
-import { FieldParamType, AggType } from 'ui/agg_types';
-import { IndexPattern } from 'ui/index_patterns';
+import { AggType } from 'ui/agg_types';
+import { IndexPattern, Field } from 'ui/index_patterns';
+import { IndexedArray } from 'ui/indexed_array';
 import {
   getAggParamsToRender,
   getError,
@@ -37,7 +38,7 @@ jest.mock('ui/agg_types', () => ({
   },
 }));
 jest.mock('../default_editor_utils', () => ({
-  groupAggregationsBy: jest.fn(() => ['indexedFields']),
+  groupAndSortBy: jest.fn(() => ['indexedFields']),
 }));
 
 describe('DefaultEditorAggParams helpers', () => {
@@ -109,7 +110,7 @@ describe('DefaultEditorAggParams helpers', () => {
               name: 'field',
               type: 'field',
               filterFieldTypes,
-              getAvailableFields: jest.fn((fields: FieldParamType[]) =>
+              getAvailableFields: jest.fn((fields: IndexedArray<Field>) =>
                 fields.filter(({ type }) => filterFieldTypes.includes(type))
               ),
               editorComponent: jest.fn(),
@@ -171,12 +172,6 @@ describe('DefaultEditorAggParams helpers', () => {
       const errors = getError({ schema: { title: 'Split series' } }, true);
 
       expect(errors).toEqual(['"Split series" aggs must run before all other buckets!']);
-    });
-
-    it('should push an error if a schema is deprecated', () => {
-      const errors = getError({ schema: { title: 'Split series', deprecate: true } }, false);
-
-      expect(errors).toEqual(['"Split series" has been deprecated.']);
     });
   });
 
